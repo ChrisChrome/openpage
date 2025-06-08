@@ -432,7 +432,7 @@ class Openpage extends FreePBX_Helpers implements BMO
 				'fcode_lang' => 'en'
 			]
 		];
-		$announcements = array_merge($announcements, $this->FreePBX->Recordings->getAll());
+		$announcements = array_merge($announcements, $this->FreePBX->Recordings->getAllRecordings());
 
 		if( $as_array ){
 			$return = [];
