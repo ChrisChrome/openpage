@@ -167,7 +167,6 @@ class Openpage extends FreePBX_Helpers implements BMO
 		$ext->add($context, '_X.', 'skiprecord', new \ext_noop('Skipping record'));
 		$ext->add($context, '_X.', '', new \ext_setvar('RECORDED_FILE',''));
 		$ext->add($context, '_X.', 'hangup', new \ext_hangup());
-		$ext->addInclude('from-internal-additional', $context);
 
 		$context = 'ext-valet-hangup';
 		$ext->add($context, '_X.', 'announcement', new \ext_setvar('ANNOUNCEMENT', '${RECORDED_FILE}'));
@@ -201,7 +200,6 @@ class Openpage extends FreePBX_Helpers implements BMO
 		$ext->add($context, '_X.', '', new \ext_execif('$["${ANNOUNCEPREPEND}" != ""]', 'Set', 'ANNOUNCEMENT=${ANNOUNCEPREPEND}&${RECORDED_FILE}'));
 		$ext->add($context, '_X.', '', new \ext_execif('$["${ANNOUNCEOVERRIDE}" != ""]', 'Set', 'ANNOUNCEMENT=${ANNOUNCEOVERRIDE}&${RECORDED_FILE}'));
 		$ext->add($context, '_X.', '', new \ext_goto('pagegroup'));
-		$ext->addInclude('from-internal-additional', $context);
 
 		$context = 'sub-valet-record';
 		$ext->add($context, 's', '', new \ext_answer());
