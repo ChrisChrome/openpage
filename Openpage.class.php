@@ -179,7 +179,7 @@ class Openpage extends FreePBX_Helpers implements BMO
 		$ext->add($context, '_X.', '', new \ext_setvar('CONFBRIDGE(user,template)', 'page_user'));
 		$ext->add($context, '_X.', '', new \ext_setvar('CONFBRIDGE(user,admin)', 'yes'));
 		$ext->add($context, '_X.', '', new \ext_setvar('CONFBRIDGE(user,marked)', 'yes'));
-		$ext->add($context, '_X.', 'openpage-page', new \ext_confbridge('${PAGE_CONF}',',','admin_menu'));
+		$ext->add($context, '_X.', 'openpage-page', new \ext_confbridge('${PAGE_CONF}', '', '', 'admin_menu'));
 		$ext->add($context, '_X.', '', new \ext_hangup());
 		$ext->add($context, '_X.', '', new \ext_goto('app-pagegroup,h,1'));
 		$ext->add($context, '_X.', 'skiprecord', new \ext_setvar('RECORDED_FILE', '${NEWRECORDING}'));
