@@ -234,7 +234,7 @@ class Openpage extends FreePBX_Helpers implements BMO
 			$multicast = $pgSettings['multicast'];
 			$announcement = $pgSettings['announcement'];
 			$mode = isset($pgSettings['openpage_valet']) ? $pgSettings['openpage_valet'] : 'live';
-			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_execif('$[${LEN(${OPENPAGEANNOUNCEMENT})}!=0]','Set', 'ANNOUNCEMENT=${OPENPAGEANNOUNCEMENT}&${ANNOUNCEMENT}'),'openpage-announcement-update');
+			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_execif('$[${LEN(${OPENPAGEANNOUNCEMENT})}!=0]','Set', 'ANNOUNCEMENT=${OPENPAGEANNOUNCEMENT}${IF($[${LEN(${ANNOUNCEMENT})}!=0]?&${ANNOUNCEMENT}:)}'),'openpage-announcement-update');
 			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_noop('OPENPAGEANNOUNCEMENT: ${OPENPAGEANNOUNCEMENT}'));
 			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_execif('$["${CALLERID(name)}" = "OpenpageEvent"]', 'Set', 'EVENTID=${CALLERID(number)}'), 'openpage-event-id',-29);
 			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_set('OPENPAGEANNOUNCEMENT',  $announcement), 'openpage-announcement',-30);
