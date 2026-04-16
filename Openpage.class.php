@@ -179,7 +179,7 @@ class Openpage extends FreePBX_Helpers implements BMO
 		$ext->add($context, '_X.', '', new \ext_setvar('CONFBRIDGE(user,template)', 'page_user'));
 		$ext->add($context, '_X.', '', new \ext_setvar('CONFBRIDGE(user,admin)', 'yes'));
 		$ext->add($context, '_X.', '', new \ext_setvar('CONFBRIDGE(user,marked)', 'yes'));
-		$ext->add($context, '_X.', 'openpage-page', new \ext_confbridge('${PAGE_CONF}', '', '', 'admin_menu'));
+		$ext->add($context, '_X.', 'openpage-page', new \ext_meetme('${PAGE_CONF}',',','admin_menu'));
 		$ext->add($context, '_X.', '', new \ext_hangup());
 		$ext->add($context, '_X.', '', new \ext_goto('app-pagegroup,h,1'));
 		$ext->add($context, '_X.', 'skiprecord', new \ext_setvar('RECORDED_FILE', '${NEWRECORDING}'));
@@ -234,8 +234,9 @@ class Openpage extends FreePBX_Helpers implements BMO
 			$multicast = $pgSettings['multicast'];
 			$announcement = $pgSettings['announcement'];
 			$mode = isset($pgSettings['openpage_valet']) ? $pgSettings['openpage_valet'] : 'live';
-			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_execif('$[${LEN(${OPENPAGEANNOUNCEMENT})}!=0]','Set', 'ANNOUNCEMENT=${OPENPAGEANNOUNCEMENT}${IF($[${LEN(${ANNOUNCEMENT})}!=0]?&${ANNOUNCEMENT}:)}'),'openpage-announcement-update');
+			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_execif('$[${LEN(${OPENPAGEANNOUNCEMENT})}!=0]','Set', 'ANNOUNCEMENT=${OPENPAGEANNOUNCEMENT}&${ANNOUNCEMENT}'),'openpage-announcement-update');
 			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_noop('OPENPAGEANNOUNCEMENT: ${OPENPAGEANNOUNCEMENT}'));
+			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_noop('ANNOUNCEMENT: ${ANNOUNCEMENT}'));
 			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_execif('$["${CALLERID(name)}" = "OpenpageEvent"]', 'Set', 'EVENTID=${CALLERID(number)}'), 'openpage-event-id',-29);
 			$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_set('OPENPAGEANNOUNCEMENT',  $announcement), 'openpage-announcement',-30);
 			$ext->splice($apppagegroups, $pagegroup['page_group'], '', new \ext_set('PAGE_MODE', $mode), 'openpage-page-mode');
