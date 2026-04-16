@@ -247,9 +247,11 @@ class Openpage extends FreePBX_Helpers implements BMO
 			}
 
 			if(!empty($announcement)){
+				$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_noop('Setting announcement for page group '.$pagegroup['page_group']), 'openpage-set-announcement', -31);
 				$astman->database_put("OPENPAGE",$pagegroup['page_group']."/prepend", $announcement);
 				$astman->database_put("OPENPAGE",$pagegroup['page_group']."/annoverride", $announcement);
 			}else{
+				$ext->splice($apppagegroups, $pagegroup['page_group'], 'agi', new \ext_noop('Removing announcement for page group '.$pagegroup['page_group']), 'openpage-remove-announcement', -32);
 				$astman->database_del("OPENPAGE", $pagegroup['page_group']."/prepend");
 				$astman->database_del("OPENPAGE", $pagegroup['page_group']."/annoverride");
 			}
